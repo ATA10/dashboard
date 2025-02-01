@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "693511293330",
+    "firebase_url": "https://iotroshark-default-rtdb.firebaseio.com",
+    "project_id": "iotroshark",
+    "storage_bucket": "iotroshark.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693511293330:android:0b3406883ce5ca6932194b",
+        "android_client_info": {
+          "package_name": "com.example.dashboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693511293330-3l7mkclaqblgolhj7f4eh7qp1irrde2s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1-j7xpYtcGU9hDsLX8ii1-yrBD8YtUk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693511293330-3l7mkclaqblgolhj7f4eh7qp1irrde2s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "693511293330-krolb76sirmrvvcq21777llkrc99tcqs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mobileApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
