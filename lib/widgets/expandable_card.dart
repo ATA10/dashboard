@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ExpandableCardWidget extends StatefulWidget {
   final String title;
-  final String collectionName; // Firestore koleksiyon adı
+  final dynamic firestoreService;
 
-  ExpandableCardWidget({required this.title, required this.collectionName});
+  ExpandableCardWidget({required this.title, required this.firestoreService});
 
   @override
   _ExpandableCardWidgetState createState() => _ExpandableCardWidgetState();
@@ -13,11 +12,71 @@ class ExpandableCardWidget extends StatefulWidget {
 
 class _ExpandableCardWidgetState extends State<ExpandableCardWidget> {
   bool _isExpanded = false;
+  late Future<List<Map<String, dynamic>>> _dataFuture;
 
-  Future<List<String>> _fetchData() async {
-    QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection(widget.collectionName).get();
-    return snapshot.docs.map((doc) => doc["name"] as String).toList();
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
+  void _fetchData() {
+    setState(() {
+      _dataFuture = widget.firestoreService.fetchData();
+    });
+  }
+
+  void _addItem() async {
+    TextEditingController _textController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Yeni ${widget.title} Ekle"),
+        content: TextField(controller: _textController, decoration: InputDecoration(hintText: "${widget.title} Adı")),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: Text("İptal")),
+          TextButton(
+            onPressed: () async {
+              if (_textController.text.trim().isNotEmpty) {
+                await widget.firestoreService.addItem(_textController.text.trim());
+                _fetchData();
+                Navigator.pop(context);
+              }
+            },
+            child: Text("Ekle"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _updateItem(String taskId, String oldValue) async {
+    TextEditingController _textController = TextEditingController(text: oldValue);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("${widget.title} Güncelle"),
+        content: TextField(controller: _textController, decoration: InputDecoration(hintText: "Yeni değer")),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: Text("İptal")),
+          TextButton(
+            onPressed: () async {
+              if (_textController.text.trim().isNotEmpty) {
+                await widget.firestoreService.updateItem(taskId, _textController.text.trim());
+                _fetchData();
+                Navigator.pop(context);
+              }
+            },
+            child: Text("Güncelle"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _deleteItem(String taskId) async {
+    await widget.firestoreService.deleteItem(taskId);
+    _fetchData();
   }
 
   @override
@@ -25,53 +84,39 @@ class _ExpandableCardWidgetState extends State<ExpandableCardWidget> {
     return Card(
       elevation: 4,
       margin: EdgeInsets.symmetric(vertical: 8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Column(
         children: [
           ListTile(
             title: Text(widget.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            trailing: Icon(
-              _isExpanded ? Icons.expand_less : Icons.expand_more,
-              color: Colors.blueAccent,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(icon: Icon(Icons.add, color: Colors.green), onPressed: _addItem),
+                IconButton(icon: Icon(_isExpanded ? Icons.expand_less : Icons.expand_more, color: Colors.blueAccent), onPressed: () {
+                  setState(() {
+                    _isExpanded = !_isExpanded;
+                  });
+                }),
+              ],
             ),
-            onTap: () {
-              setState(() {
-                _isExpanded = !_isExpanded;
-              });
-            },
           ),
           if (_isExpanded)
-            FutureBuilder<List<String>>(
-              future: _fetchData(),
+            FutureBuilder<List<Map<String, dynamic>>>(
+              future: _dataFuture,
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (snapshot.hasError) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Veri alınırken hata oluştu."),
-                  );
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Veri bulunamadı."),
-                  );
-                }
-
+                if (snapshot.connectionState == ConnectionState.waiting) return CircularProgressIndicator();
+                if (snapshot.hasError) return Text("Veri alınırken hata oluştu.");
+                if (!snapshot.hasData || snapshot.data!.isEmpty) return Text("Veri bulunamadı.");
                 return Column(
                   children: snapshot.data!.map((item) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                      child: Row(
+                    return ListTile(
+                      title: Text(item['task'] ?? "", style: TextStyle(fontSize: 16)),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.circle, size: 8, color: Colors.blueAccent),
-                          SizedBox(width: 8),
-                          Text(item, style: TextStyle(fontSize: 16)),
+                          IconButton(icon: Icon(Icons.edit, color: Colors.blue), onPressed: () => _updateItem(item['taskId'], item['task'])),
+                          IconButton(icon: Icon(Icons.delete, color: Colors.red), onPressed: () => _deleteItem(item['taskId'])),
                         ],
                       ),
                     );
@@ -79,7 +124,6 @@ class _ExpandableCardWidgetState extends State<ExpandableCardWidget> {
                 );
               },
             ),
-          SizedBox(height: 10),
         ],
       ),
     );
