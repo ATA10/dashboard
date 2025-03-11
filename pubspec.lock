@@ -33,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  calendar_view:
+    dependency: "direct main"
+    description:
+      name: calendar_view
+      sha256: "94b5ccc06f6ab11fa3e40eda19f6f925bc49a355dfad8cfafece3bad54ce9773"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   characters:
     dependency: transitive
     description:
@@ -240,6 +248,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.15.0"
+  mobile_scanner:
+    dependency: "direct main"
+    description:
+      name: mobile_scanner
+      sha256: "9cb9e371ee9b5b548714f9ab5fd33b530d799745c83d5729ecd1e8ab2935dbd1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.7"
   page_transition:
     dependency: transitive
     description:
@@ -351,4 +367,4 @@ packages:
     version: "0.5.1"
 sdks:
   dart: ">=3.5.4 <4.0.0"
-  flutter: ">=3.18.0-18.0.pre.54"
+  flutter: ">=3.22.0"
