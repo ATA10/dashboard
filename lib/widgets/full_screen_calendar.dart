@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:calendar_view/calendar_view.dart';
-import 'calender_input_panel.dart';
+import 'calendar/calender_input_panel.dart';
 
 class FullScreenCalendar extends StatefulWidget {
   final List<CalendarEventData> events;

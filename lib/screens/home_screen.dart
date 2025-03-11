@@ -1,11 +1,11 @@
 import 'package:dashboard/services/crud/devices_firestore_services.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_appbar.dart';
-import '../widgets/todolist_expandable_card.dart';
+import '../widgets/todo_list/todolist_expandable_card.dart';
 import '../services/crud/todolist_firestore_service.dart';
-import '../widgets/employees_card_widget.dart';
+import '../widgets/employees/employees_card_widget.dart';
 import '../services/crud/employees_service.dart';
-import '../widgets/calendar_card_widget.dart'; // Takvim widget'ı
+import '../widgets/calendar/calendar_card_widget.dart'; // Takvim widget'ı
 import '../widgets/devices/devices_card_widget.dart';
 
 class HomeScreen extends StatelessWidget {

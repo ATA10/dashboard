@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../services/crud/employees_service.dart';
+import '../../services/crud/employees_service.dart';
 import 'employee_form_widget.dart';
 
 class EmployeesCardWidget extends StatefulWidget {

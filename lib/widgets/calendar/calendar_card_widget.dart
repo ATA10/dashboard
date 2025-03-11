@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:calendar_view/calendar_view.dart';
-import 'full_screen_calendar.dart';
+import '../full_screen_calendar.dart';
 
 DateTime get _now => DateTime.now();
 
