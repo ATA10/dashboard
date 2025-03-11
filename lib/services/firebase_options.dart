@@ -37,33 +37,34 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC6woJzfVXfyYxu8FVi8HwDWlB6VAgaxNo',
-    appId: '1:693511293330:web:0177ecb6c0f3115c32194b',
-    messagingSenderId: '693511293330',
-    projectId: 'iotroshark',
-    authDomain: 'iotroshark.firebaseapp.com',
-    databaseURL: 'https://iotroshark-default-rtdb.firebaseio.com',
-    storageBucket: 'iotroshark.firebasestorage.app',
-    measurementId: 'G-6PZFL7R1C5',
+    apiKey: '',
+    appId: '1::web:',
+    messagingSenderId: '',
+    projectId: '',
+    authDomain: '',
+    databaseURL: '',
+    storageBucket: '',
+    measurementId: '',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyD1-j7xpYtcGU9hDsLX8ii1-yrBD8YtUk8',
-    appId: '1:693511293330:android:0b3406883ce5ca6932194b',
-    messagingSenderId: '693511293330',
-    projectId: 'iotroshark',
-    databaseURL: 'https://iotroshark-default-rtdb.firebaseio.com',
-    storageBucket: 'iotroshark.firebasestorage.app',
+    apiKey: '',
+    appId: '1::web:',
+    messagingSenderId: '',
+    projectId: '',
+    authDomain: '',
+    databaseURL: '',
+    storageBucket: '',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyC6woJzfVXfyYxu8FVi8HwDWlB6VAgaxNo',
-    appId: '1:693511293330:web:135f6b2bb0a3c05432194b',
-    messagingSenderId: '693511293330',
-    projectId: 'iotroshark',
-    authDomain: 'iotroshark.firebaseapp.com',
-    databaseURL: 'https://iotroshark-default-rtdb.firebaseio.com',
-    storageBucket: 'iotroshark.firebasestorage.app',
-    measurementId: 'G-WL0FW4NBCE',
+    apiKey: '',
+    appId: '1::web:',
+    messagingSenderId: '',
+    projectId: '',
+    authDomain: '',
+    databaseURL: '',
+    storageBucket: '',
+    measurementId: '',
   );
 }
