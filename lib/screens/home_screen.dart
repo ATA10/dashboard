@@ -13,25 +13,28 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Ana Sayfa")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            CalendarCardWidget(), 
-            SizedBox(height: 16),
-            ExpandableCardWidget(
-              title: "ToDo List",
-              firestoreService: TodolistFirestoreService(),
-            ),
-            SizedBox(height: 16), // Araya boşluk ekledim
-            EmployeesCardWidget(
-              firestoreService: EmployeesFirestoreService(),
-            ),
-            SizedBox(height: 10),
-            DevicesCardWidget(
-              firestoreService: DevicesFirestoreService(),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start, // İçeriği sola hizalar
+            children: [
+              CalendarCardWidget(), 
+              SizedBox(height: 16),
+              ExpandableCardWidget(
+                title: "ToDo List",
+                firestoreService: TodolistFirestoreService(),
+              ),
+              SizedBox(height: 16),
+              EmployeesCardWidget(
+                firestoreService: EmployeesFirestoreService(),
+              ),
+              SizedBox(height: 10),
+              DevicesCardWidget(
+                firestoreService: DevicesFirestoreService(),
+              ),
+            ],
+          ),
         ),
       ),
     );

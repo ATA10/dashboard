@@ -1,108 +1,35 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-
-// class DevicesFirestoreService {
-//   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-//   final String userId = FirebaseAuth.instance.currentUser!.uid;
-
-//   // 🔹 Cihazları Firestore’dan çek
-//   Future<List<Map<String, dynamic>>> fetchData() async {
-//     try {
-//       DocumentSnapshot snapshot = await _firestore.collection("users").doc(userId).get();
-
-//       if (!snapshot.exists || snapshot.data() == null) return [];
-
-//       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-//       Map<String, dynamic>? devices = data["devices"];
-
-//       if (devices == null) return [];
-
-//       return devices.entries.map((entry) {
-//         return {
-//           "deviceId": entry.key,
-//           "name": entry.value["name"],
-//           "model": entry.value["model"],
-//           "serial": entry.value["serial"],
-//           "location": entry.value["location"],
-//           "timestamp": entry.value["timestamp"] ?? "",
-//         };
-//       }).toList();
-//     } catch (e) {
-//       print("Hata oluştu: $e");
-//       return [];
-//     }
-//   }
-
-//   // 🔹 Yeni cihaz ekle
-//   Future<void> addItem(String name, String model, String serial, String location) async {
-//     String newDeviceId = _firestore.collection("users").doc(userId).collection("devices").doc().id;
-//     Timestamp now = Timestamp.now();
-
-//     await _firestore.collection("users").doc(userId).update({
-//       "devices.$newDeviceId": {
-//         "name": name,
-//         "model": model,
-//         "serial": serial,
-//         "location": location,
-//         "timestamp": now, // ✅ Tarih ekliyoruz
+// // users koleksiyonu
+// users: {
+//   zWLdCoO0BmUDHUw5QI00fY5kyX82: {
+//     createdAt: "March 11, 2025 at 1:16:19 PM UTC+3",
+//     email: "asd12@gmail.com",
+//     uid: "zWLdCoO0BmUDHUw5QI00fY5kyX82",
+//     devices: {
+//       LCLItwlCUlF0aNn6ErSO: {
+//         name: "cihaz1",
+//         model: "ch1",
+//         serial: "123456",
+//         location: "bal",
+//         timestamp: "March 11, 2025 at 1:27:41 PM UTC+3"
 //       }
-//     });
-//   }
-
-//   // 🔹 Cihaz bilgilerini güncelle
-//   Future<void> updateItem(String deviceId, String name, String model, String serial, String location) async {
-//     Timestamp now = Timestamp.now();
-
-//     await _firestore.collection("users").doc(userId).update({
-//       "devices.$deviceId.name": name,
-//       "devices.$deviceId.model": model,
-//       "devices.$deviceId.serial": serial,
-//       "devices.$deviceId.location": location,
-//       "devices.$deviceId.timestamp": now, // ✅ Güncelleme tarihi ekleniyor
-//     });
-//   }
-
-//   // 🔹 Cihazı sil
-//   Future<void> deleteItem(String deviceId) async {
-//     await _firestore.collection("users").doc(userId).update({
-//       "devices.$deviceId": FieldValue.delete()
-//     });
+//     }
 //   }
 // }
 
-
-// // // users koleksiyonu
-// // users: {
-// //   zWLdCoO0BmUDHUw5QI00fY5kyX82: {
-// //     createdAt: "March 11, 2025 at 1:16:19 PM UTC+3",
-// //     email: "asd12@gmail.com",
-// //     uid: "zWLdCoO0BmUDHUw5QI00fY5kyX82",
-// //     devices: {
-// //       LCLItwlCUlF0aNn6ErSO: {
-// //         name: "cihaz1",
-// //         model: "ch1",
-// //         serial: "123456",
-// //         location: "bal",
-// //         timestamp: "March 11, 2025 at 1:27:41 PM UTC+3"
-// //       }
-// //     }
-// //   }
-// // }
-
-// // // devices koleksiyonu
-// // devices: {
-// //   LCLItwlCUlF0aNn6ErSO: {
-// //     relays: {
-// //       relay1: false,
-// //       relay2: false,
-// //       relay3: false
-// //     },
-// //     sensors: {
-// //       humidity: "754",
-// //       temperature: "0.00"
-// //     }
-// //   }
-// // }
+// // devices koleksiyonu
+// devices: {
+//   LCLItwlCUlF0aNn6ErSO: {
+//     relays: {
+//       relay1: false,
+//       relay2: false,
+//       relay3: false
+//     },
+//     sensors: {
+//       humidity: "754",
+//       temperature: "0.00"
+//     }
+//   }
+// }
 
 
 
@@ -114,32 +41,75 @@ class DevicesFirestoreService {
   final String userId = FirebaseAuth.instance.currentUser!.uid;
 
   // 🔹 Cihazları Firestore’dan çek
+  // Future<List<Map<String, dynamic>>> fetchData() async {
+  //   try {
+  //     DocumentSnapshot snapshot = await _firestore.collection("users").doc(userId).get();
+
+  //     if (!snapshot.exists || snapshot.data() == null) return [];
+
+  //     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+  //     Map<String, dynamic>? devices = data["devices"];
+
+  //     if (devices == null) return [];
+
+  //     return devices.entries.map((entry) {
+  //       return {
+  //         "deviceId": entry.key,
+  //         "name": entry.value["name"],
+  //         "model": entry.value["model"],
+  //         "serial": entry.value["serial"],
+  //         "location": entry.value["location"],
+  //         "timestamp": entry.value["timestamp"] ?? "",
+  //       };
+  //     }).toList();
+  //   } catch (e) {
+  //     print("Hata oluştu: $e");
+  //     return [];
+  //   }
+  // }
+
   Future<List<Map<String, dynamic>>> fetchData() async {
-    try {
-      DocumentSnapshot snapshot = await _firestore.collection("users").doc(userId).get();
+  try {
+    // users koleksiyonundan kullanıcının cihaz bilgilerini çek
+    DocumentSnapshot userSnapshot = await _firestore.collection("users").doc(userId).get();
 
-      if (!snapshot.exists || snapshot.data() == null) return [];
+    if (!userSnapshot.exists || userSnapshot.data() == null) return [];
 
-      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-      Map<String, dynamic>? devices = data["devices"];
+    Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+    Map<String, dynamic>? devices = userData["devices"]; // "devices" alanını kontrol et
 
-      if (devices == null) return [];
+    if (devices == null) return [];
 
-      return devices.entries.map((entry) {
-        return {
+    // Her bir cihaz için devices koleksiyonundan sensör ve röle verilerini çek
+    List<Map<String, dynamic>> result = [];
+    for (var entry in devices.entries) {
+      String serial = entry.value["serial"]; // Cihazın serial numarası
+      DocumentSnapshot deviceSnapshot = await _firestore.collection("devices").doc(serial).get();
+
+      if (deviceSnapshot.exists) {
+        Map<String, dynamic> deviceData = deviceSnapshot.data() as Map<String, dynamic>;
+        Map<String, dynamic>? sensors = deviceData["sensors"];
+        Map<String, dynamic>? relays = deviceData["relays"];
+
+        result.add({
           "deviceId": entry.key,
           "name": entry.value["name"],
           "model": entry.value["model"],
-          "serial": entry.value["serial"],
+          "serial": serial,
           "location": entry.value["location"],
           "timestamp": entry.value["timestamp"] ?? "",
-        };
-      }).toList();
-    } catch (e) {
-      print("Hata oluştu: $e");
-      return [];
+          "sensors": sensors ?? {}, // Sensör verileri
+          "relays": relays ?? {}, // Röle verileri
+        });
+      }
     }
+
+    return result;
+  } catch (e) {
+    print("Hata oluştu: $e");
+    return [];
   }
+}
 
 Future<void> addItem(String name, String model, String serial, String location) async {
   try {
